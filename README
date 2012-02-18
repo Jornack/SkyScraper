@@ -26,12 +26,13 @@ Just run :
 Java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
 
 [Issues]
-The Disconnect button doesn't switch back to Connect when the connection is terminated by Thinkgear (i.e. Thinkgear crashes)
+The Disconnect button doesn't switch back to Connect when the connection is terminated by Thinkgear (i.e. ThinkGear crashes)
 
 [ToDo]
 - Add statistics tab
 - Add replay of saved session
 - Add preload of saved session before generation so user can select specific parts of the session to generate.
+- Add option to skip the savedialog and start saving immediately
 - Make fancy Signal indicator
 - Clean up code
 - Refactor all code :$

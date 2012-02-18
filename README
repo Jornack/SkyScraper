@@ -1,0 +1,28 @@
+# Author: Jornack hupkens
+# email: jornack (at) gmail (dot) com
+# Project: SkyScraper - NeuroSky Log & Graph utility 
+
+[Overview]
+SkyScraper was inspired by ericblue's Mindstream and brain_grapher (https://github.com/ericblue).
+Brain_grapher provided me the graphs, but couldn't log. Mindstream could log, but didn't show any graphs. So, basically I just combined the 
+functionality of both applications. 
+
+I originally developed and tested this application with the Mindwave and Thinkgear 2.2.0.0. I assume it works for the MindSet as well, but 
+I don't own a MindSet so I'm not sure. Let me know if it does or does not :)
+
+[Features]
+- Shows realtime data as Bar Chart or Line Chart.
+- Saves data to a file on the local filesystem
+- Generates a JPG/PNG file of a saved session.
+
+[Installation]
+Just run :
+Java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
+
+[ToDo]
+- Add statistics tab
+- Add replay of saved session
+- Clean up code
+
+[Change log]
+feb 2012 - Initial release v1.0a

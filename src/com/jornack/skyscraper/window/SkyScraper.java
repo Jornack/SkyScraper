@@ -57,8 +57,6 @@ import org.jfree.ui.RefineryUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//import com.ericblue.mindstream.client.ThinkGearSocketClient;
-
 import com.jornack.skyscraper.util.Logger;
 import com.jornack.skyscraper.util.PreferenceManager;
 import com.jornack.skyscraper.util.ThinkGearConnector;

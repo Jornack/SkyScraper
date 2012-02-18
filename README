@@ -23,6 +23,7 @@ Java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
 - Add statistics tab
 - Add replay of saved session
 - Add preload of saved session before generation so user can select specific parts of the session to generate.
+- Make fancy Signal indicator
 - Clean up code
 - Refactor all code :$
 

@@ -22,7 +22,9 @@ Java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
 [ToDo]
 - Add statistics tab
 - Add replay of saved session
+- Add preload of saved session before generation so user can select specific parts of the session to generate.
 - Clean up code
+- Refactor all code :$
 
 [Change log]
 feb 2012 - Initial release v1.0a

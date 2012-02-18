@@ -25,6 +25,9 @@ https://github.com/Jornack/SkyScraper/raw/master/images/generated%20-%20skyskrap
 Just run :
 Java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
 
+[Issues]
+The Disconnect button doesn't switch back to Connect when the connection is terminated by Thinkgear (i.e. Thinkgear crashes)
+
 [ToDo]
 - Add statistics tab
 - Add replay of saved session

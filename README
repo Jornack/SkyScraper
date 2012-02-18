@@ -10,6 +10,12 @@ functionality of both applications.
 I originally developed and tested this application with the Mindwave and Thinkgear 2.2.0.0, java version "1.6.0_26". I assume it works for the MindSet as well, but 
 I don't own a MindSet so I'm not sure. Let me know if it does or does not :)
 
+[Screenshots]
+https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-01.png
+https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-02.png
+https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-03.png
+https://github.com/Jornack/SkyScraper/raw/master/images/generated%20-%20skyskraper.20120210%2019.19.3412.json%20.png
+
 [Features]
 - Shows realtime data as Bar Chart or Line Chart.
 - Saves data to a file on the local filesystem

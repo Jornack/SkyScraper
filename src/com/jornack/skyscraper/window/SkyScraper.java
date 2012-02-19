@@ -57,6 +57,8 @@ import org.jfree.ui.RefineryUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//import com.ericblue.mindstream.client.ThinkGearSocketClient;
+
 import com.jornack.skyscraper.util.Logger;
 import com.jornack.skyscraper.util.PreferenceManager;
 import com.jornack.skyscraper.util.ThinkGearConnector;
@@ -236,6 +238,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
         content.setPreferredSize(new Dimension(1124, 512));
         donatePanel.setPreferredSize(new Dimension(74,21));
         
+        setIconImage(new ImageIcon(ClassLoader.getSystemResource("images/icon.png")).getImage());
         setContentPane(content);
         Logger.log("Making up stuff to test this TextArea");
         pw = new PreferencesWindow();

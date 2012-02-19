@@ -8,7 +8,6 @@ Brain_grapher provided me the graphs, but couldn't log. Mindstream could log, bu
 
 I originally developed and tested this application with the MindWave and Thinkgear 2.2.0.0, java version "1.6.0_26" in Win7x64 Ultimate. I assume it works for the MindSet as well, but I don't own a MindSet so I'm not sure. Let me know if it does or does not :)
 
-The code is a mess, I know. I started of working on the Mindstream code and decided to go GUI and added/removed stuff along the way. I basically ended up with a whole new application...  Anyway, it works for now and it does what I want it to do :)
 [Screenshots]
 https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-01.png
 https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-02.png
@@ -33,7 +32,7 @@ The Disconnect button doesn't switch back to Connect when the connection is term
 - Add preload of saved session before generation so user can select specific parts of the session to generate.
 - Add option to skip the savedialog and start saving immediately
 - Make fancy Signal indicator
-- Add fancy icon
+- Add fancy icon [Done]
 - Clean up code
 - Refactor all code :$
 

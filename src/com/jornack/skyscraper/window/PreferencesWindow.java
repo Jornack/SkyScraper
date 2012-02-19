@@ -45,26 +45,13 @@ import com.jornack.skyscraper.util.PreferenceManager;
 
 public class PreferencesWindow extends JFrame {
 
-	public static final String PREFERENCES_DEBUG = "skyskraper.preferences.debug";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6072199621342421682L;
 	private static final String ACTION_ADD = "ACTION_ADD";
-	public static final String CHART_GENERATION_LINETHICKNESS = "skyskraper.chart.generation.linethickness";
-	private static final String FORMAT_JPG = "JPG";
-	private static final String FORMAT_PNG = "PNG";
-	public static final String CHART_GENERATION_FORMAT = "skyskraper.chart.generation.format";
-	public static final String CHART_GENERATION_WIDTH = "skyskraper.chart.generation.width";
-	public static final String CHART_GENERATION_HEIGHT = "skyskraper.chart.generation.height";
-	public static final String CHART_GENERATION_IGNORE_PSL = "skyskraper.chart.generation.ignore.psl";
-	public static final String CHART_GENERATION_IGNORE_ESENSE = "skyskraper.chart.generation.ignore.esense";
-	public static final String CHART_GENERATION_IGNORE_EEGPWR = "skyskraper.chart.generation.ignore.eegpwr";
-	public static final String THINKGEAR_DEFAULT_HOST = "skyskraper.thinkgear.default.host";
-	public static final String THINKGEAR_DEFAULT_PORT = "skyskraper.thinkgear.default.port";
 	public static final String DEFAULT_HOST = "127.0.0.1";
 	public static final int DEFAULT_PORT = 13854;
-	public  static final String THINKGEAR_RAW_OUTPUT = "skyskraper.thinkgear.rawoutput";
 	private JTextField textChartWidth;
 	private JTextField textChartHeight;
 	private JTextField textChartLineThickness;
@@ -135,7 +122,7 @@ public class PreferencesWindow extends JFrame {
 		spring.putConstraint(SpringLayout.WEST, debugLbl, 5, SpringLayout.WEST, panel);
 		panel.add(debugLbl);
 		debugChk = new JCheckBox();
-		debugChk.setSelected(PreferenceManager.getPreferences().getBoolean(PREFERENCES_DEBUG, false)	);
+		debugChk.setSelected(PreferenceManager.getPreferences().getBoolean(PreferenceManager.PREFERENCES_DEBUG, false)	);
 		spring.putConstraint(SpringLayout.NORTH, debugChk, 5, SpringLayout.NORTH, panel);
 		spring.putConstraint(SpringLayout.WEST, debugChk, 10, SpringLayout.EAST, debugLbl);
 		panel.add(debugChk);
@@ -146,7 +133,7 @@ public class PreferencesWindow extends JFrame {
 		panel.add(hostLbl);
 		
 		hostTxt = new JTextField();
-		hostTxt.setText(PreferenceManager.getPreferences().get(PreferencesWindow.THINKGEAR_DEFAULT_HOST, DEFAULT_HOST));
+		hostTxt.setText(PreferenceManager.getPreferences().get(PreferenceManager.THINKGEAR_DEFAULT_HOST, DEFAULT_HOST));
 		spring.putConstraint(SpringLayout.NORTH, hostTxt, 0, SpringLayout.NORTH, hostLbl);
 		spring.putConstraint(SpringLayout.WEST, hostTxt, 0, SpringLayout.WEST, debugChk);
 		hostTxt.setColumns(15);
@@ -158,8 +145,8 @@ public class PreferencesWindow extends JFrame {
 		panel.add(portLbl);
 		
 		portTxt = new JTextField();
-		portTxt.setText(Integer.toString(PreferenceManager.getPreferences().getInt(PreferencesWindow.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT)));
-		debugChk.setSelected(PreferenceManager.getPreferences().getBoolean(PREFERENCES_DEBUG, false)	);
+		portTxt.setText(Integer.toString(PreferenceManager.getPreferences().getInt(PreferenceManager.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT)));
+		debugChk.setSelected(PreferenceManager.getPreferences().getBoolean(PreferenceManager.PREFERENCES_DEBUG, false)	);
 		spring.putConstraint(SpringLayout.NORTH, portTxt, 0, SpringLayout.NORTH, portLbl);
 		spring.putConstraint(SpringLayout.WEST, portTxt, 0, SpringLayout.WEST, hostTxt);
 		portTxt.setColumns(5);
@@ -171,7 +158,7 @@ public class PreferencesWindow extends JFrame {
 		panel.add(rawOutputLbl);
 		
 		rawOutputChk = new JCheckBox();
-		rawOutputChk.setSelected(PreferenceManager.getPreferences().getBoolean(THINKGEAR_RAW_OUTPUT, false)	);
+		rawOutputChk.setSelected(PreferenceManager.getPreferences().getBoolean(PreferenceManager.THINKGEAR_RAW_OUTPUT, false)	);
 		spring.putConstraint(SpringLayout.NORTH, rawOutputChk, 5, SpringLayout.NORTH, rawOutputLbl);
 		spring.putConstraint(SpringLayout.WEST, rawOutputChk, 0, SpringLayout.WEST, hostTxt);
 		panel.add(rawOutputChk);
@@ -197,10 +184,10 @@ public class PreferencesWindow extends JFrame {
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				PreferenceManager.getPreferences().putBoolean(PREFERENCES_DEBUG, debugChk.isSelected());
-				PreferenceManager.getPreferences().putInt(PreferencesWindow.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT);
-				PreferenceManager.getPreferences().put(PreferencesWindow.THINKGEAR_DEFAULT_HOST , DEFAULT_HOST);
-				PreferenceManager.getPreferences().putBoolean(THINKGEAR_RAW_OUTPUT, rawOutputChk.isSelected());
+				PreferenceManager.getPreferences().putBoolean(PreferenceManager.PREFERENCES_DEBUG, debugChk.isSelected());
+				PreferenceManager.getPreferences().putInt(PreferenceManager.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT);
+				PreferenceManager.getPreferences().put(PreferenceManager.THINKGEAR_DEFAULT_HOST , DEFAULT_HOST);
+				PreferenceManager.getPreferences().putBoolean(PreferenceManager.THINKGEAR_RAW_OUTPUT, rawOutputChk.isSelected());
 				dispose();
 				
 
@@ -286,7 +273,7 @@ public class PreferencesWindow extends JFrame {
 		
 		textChartWidth = new JTextField();
 		textChartWidth.setHorizontalAlignment(JTextField.RIGHT );
-		textChartWidth.setText(PreferenceManager.getPreferences().get(CHART_GENERATION_WIDTH, "4096"));
+		textChartWidth.setText(PreferenceManager.getPreferences().get(PreferenceManager.CHART_GENERATION_WIDTH, "4096"));
 		spring.putConstraint(SpringLayout.NORTH, textChartWidth, 5, SpringLayout.NORTH, panel);
 		spring.putConstraint(SpringLayout.WEST, textChartWidth, 5, SpringLayout.EAST, lblChartWidth);
 		panel.add(textChartWidth);
@@ -300,7 +287,7 @@ public class PreferencesWindow extends JFrame {
 		panel.add(lblChartHeight);
 		
 		textChartHeight = new JTextField();
-		textChartHeight.setText(PreferenceManager.getPreferences().get(CHART_GENERATION_HEIGHT, "768"));
+		textChartHeight.setText(PreferenceManager.getPreferences().get(PreferenceManager.CHART_GENERATION_HEIGHT, "768"));
 		spring.putConstraint(SpringLayout.NORTH, textChartHeight, 5, SpringLayout.NORTH, panel);
 		spring.putConstraint(SpringLayout.WEST, textChartHeight, 5, SpringLayout.EAST, lblChartHeight);
 		textChartHeight.setColumns(10);
@@ -308,12 +295,12 @@ public class PreferencesWindow extends JFrame {
 
 		//
 		
-		JRadioButton radioPNG = new JRadioButton(FORMAT_PNG);
+		JRadioButton radioPNG = new JRadioButton(PreferenceManager.FORMAT_PNG);
 		
-		radioPNG.setActionCommand(FORMAT_PNG);
-		JRadioButton radioJPG = new JRadioButton(FORMAT_JPG); 
-		radioJPG.setActionCommand(FORMAT_JPG);
-		if (PreferenceManager.getPreferences().get(CHART_GENERATION_FORMAT, FORMAT_PNG).equals(FORMAT_PNG)){
+		radioPNG.setActionCommand(PreferenceManager.FORMAT_PNG);
+		JRadioButton radioJPG = new JRadioButton(PreferenceManager.FORMAT_JPG); 
+		radioJPG.setActionCommand(PreferenceManager.FORMAT_JPG);
+		if (PreferenceManager.getPreferences().get(PreferenceManager.CHART_GENERATION_FORMAT, PreferenceManager.FORMAT_PNG).equals(PreferenceManager.FORMAT_PNG)){
 			radioPNG.setSelected(true);
 		}else{
 			radioJPG.setSelected(true);
@@ -336,7 +323,7 @@ public class PreferencesWindow extends JFrame {
 		panel.add(lblChartFormat);
 		
 		textChartLineThickness = new JTextField();
-		textChartLineThickness.setText(PreferenceManager.getPreferences().get(CHART_GENERATION_LINETHICKNESS, "2"));
+		textChartLineThickness.setText(PreferenceManager.getPreferences().get(PreferenceManager.CHART_GENERATION_LINETHICKNESS, "2"));
 		textChartLineThickness.setColumns(2);
 		spring.putConstraint(SpringLayout.WEST, textChartLineThickness, 0, SpringLayout.WEST, radioPanel);
 		spring.putConstraint(SpringLayout.NORTH, textChartLineThickness, 50, SpringLayout.NORTH, radioPanel);
@@ -445,7 +432,7 @@ public class PreferencesWindow extends JFrame {
 					return;
 				}
 				
-				PreferenceManager.getPreferences().put(CHART_GENERATION_WIDTH, textChartWidth.getText());
+				PreferenceManager.getPreferences().put(PreferenceManager.CHART_GENERATION_WIDTH, textChartWidth.getText());
 				
 				try{
 					Integer.parseInt(textChartHeight.getText());
@@ -457,7 +444,7 @@ public class PreferencesWindow extends JFrame {
 					return;
 				}
 				
-				PreferenceManager.getPreferences().put(CHART_GENERATION_FORMAT , buttonGroup.getSelection().getActionCommand());
+				PreferenceManager.getPreferences().put(PreferenceManager.CHART_GENERATION_FORMAT , buttonGroup.getSelection().getActionCommand());
 				try{
 					Integer.parseInt(textChartLineThickness.getText());
 				}catch(NumberFormatException nfe){
@@ -471,11 +458,11 @@ public class PreferencesWindow extends JFrame {
 					JOptionPane.showMessageDialog(null, "File does not exist.");
 					return;
 				}
-				PreferenceManager.getPreferences().putBoolean(CHART_GENERATION_IGNORE_PSL , chkPoorSignalLevel.isSelected());
-				PreferenceManager.getPreferences().putBoolean(CHART_GENERATION_IGNORE_ESENSE , chkESense.isSelected());
-				PreferenceManager.getPreferences().putBoolean(CHART_GENERATION_IGNORE_EEGPWR , chkEEGPower.isSelected());
+				PreferenceManager.getPreferences().putBoolean(PreferenceManager.CHART_GENERATION_IGNORE_PSL , chkPoorSignalLevel.isSelected());
+				PreferenceManager.getPreferences().putBoolean(PreferenceManager.CHART_GENERATION_IGNORE_ESENSE , chkESense.isSelected());
+				PreferenceManager.getPreferences().putBoolean(PreferenceManager.CHART_GENERATION_IGNORE_EEGPWR , chkEEGPower.isSelected());
 				
-				PreferenceManager.getPreferences().put(CHART_GENERATION_LINETHICKNESS , textChartLineThickness.getText());
+				PreferenceManager.getPreferences().put(PreferenceManager.CHART_GENERATION_LINETHICKNESS , textChartLineThickness.getText());
 
 				File file = new File(textFilename.getText());
 						

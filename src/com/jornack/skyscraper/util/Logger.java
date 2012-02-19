@@ -32,7 +32,7 @@ public class Logger {
 	}
 
 	public static void debug(String text){
-		if (PreferenceManager.getPreferences().getBoolean(PreferencesWindow.PREFERENCES_DEBUG, false)){
+		if (PreferenceManager.getPreferences().getBoolean(PreferenceManager.PREFERENCES_DEBUG, false)){
 			log(text);
 		}
 		

@@ -2,6 +2,7 @@ package com.jornack.skyscraper.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class JSONFileReader extends JSONReaderAbstract{
@@ -16,6 +17,16 @@ public class JSONFileReader extends JSONReaderAbstract{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	@Override
+	public void connect() throws IOException {
+		// do nothing
+		
+	}
+	@Override
+	public void close() throws IOException {
+		// do nothing
 		
 	}
 	

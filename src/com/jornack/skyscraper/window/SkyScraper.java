@@ -46,6 +46,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.time.Millisecond;
@@ -61,7 +62,7 @@ import org.json.JSONObject;
 
 import com.jornack.skyscraper.util.Logger;
 import com.jornack.skyscraper.util.PreferenceManager;
-import com.jornack.skyscraper.util.ThinkGearConnector;
+import com.jornack.skyscraper.util.ThinkGearJSONReader;
 
 /**
  * <p>Title:		SkyScraper</p><br>
@@ -75,7 +76,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
 
 	private static final String UNABLED_TO_BROWSE = "I'm not abled to open the PayPal webpage in you browser. Please visit the following URL manually to proceed:\n\n\thttp://bit.ly/zZisRg";
 	private final static String APP_NAME = "SkyScraper";
-	private final static String APP_VERSION = "0.1a";
+	private final static String APP_VERSION = "0.1b";
 	
 	
 	private static final boolean CHART_TYPE_LINE = false;
@@ -415,7 +416,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
             true,                     // tooltips?
             false                     // URLs?
         );
-
+        
         // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
 
         // set the background color for the chart...
@@ -606,22 +607,34 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
         );
         XYPlot plot = result.getXYPlot();
         ValueAxis axis = plot.getDomainAxis();
-        axis.setAutoRange(true);
+        //axis.setAutoRange(true);
         axis.setFixedAutoRange(60000.0);  // 60 seconds
         axis = plot.getRangeAxis();
-        axis.setRange(0.0, 200.0); 
-        
+        axis.setAutoRange(true);
+        //axis.setRange(0.0, 100.0); 
+
   		ValueAxis yAxis =plot.getRangeAxis();
-  		yAxis.setAutoRange(true);
-        		
+  		yAxis.setAutoRange(false);
+  		yAxis.setRange(0.0, 100.0); 
         
       
   		XYItemRenderer renderer = plot.getRenderer();
   		renderer.setSeriesStroke(this.INDEX_ATTENTIONSERIES , new BasicStroke(LINE_THINKNESS)); 
   		renderer.setSeriesStroke(this.INDEX_MEDITATIONSERIES, new BasicStroke(LINE_THINKNESS));
   		
+  		 // set up gradient paints for series...
+        final GradientPaint gp0 = new GradientPaint(
+                0.0f, 0.0f, Color.GRAY, 
+                0.0f, 0.0f, Color.GRAY
+            );
+        final GradientPaint gp1 = new GradientPaint(
+                0.0f, 0.0f, Color.BLACK, 
+                0.0f, 0.0f, Color.BLACK
+            );
+            
+        renderer.setSeriesPaint(this.INDEX_ATTENTIONSERIES , gp0); 
+  		renderer.setSeriesPaint(this.INDEX_MEDITATIONSERIES, gp1);
   		
-        
         return result;
     }
 	
@@ -763,16 +776,8 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
 	
 
   
-	/**
-	 * <p>Title:		ThinkGearHandlerSwingWorker</p><br>
-	 * <p>Description:	Handles JSON data coming back from ThinkGearSocketClient</p><br>
-	 * 
-	 * @author		    Jornack
-	 *
-	 * $Author: Jornack $
-	 */
 private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
-    	private ThinkGearConnector connector = null;
+    	private ThinkGearJSONReader connector = null;
     	private DefaultCategoryDataset altDataSet = null;
     	private DefaultCategoryDataset wavesDataSet = null;
     	private final static int CONNECT_INTERVAL = 3000;
@@ -782,11 +787,11 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
     	private FileWriter writer = null;
     	private String  filename = null;
     	public ThinkGearHandlerSwingWorker(){
-			setConnector(new ThinkGearConnector());
+			setConnector(new ThinkGearJSONReader());
 		}
     	@Override
         protected void done() {
-    		
+    		Logger.debug("ThinkGearhandlerSwingWorker.close()");
     		try {
     			if (writer != null){
     				writer.close();
@@ -843,7 +848,7 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
 					}
 				}
 	    	}
-    		Logger.log("Connected:" + getConnector().isConnected());
+    		Logger.debug("Connected:" + getConnector().isConnected());
     		if (!getConnector().isConnected()){
     			Logger.log("Failed to connect.");
     			
@@ -1000,10 +1005,10 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
 		public void setFilename(String filename) {
 			this.filename = filename;
 		}
-		public ThinkGearConnector getConnector() {
+		public ThinkGearJSONReader getConnector() {
 			return connector;
 		}
-		public void setConnector(ThinkGearConnector connector) {
+		public void setConnector(ThinkGearJSONReader connector) {
 			this.connector = connector;
 		}
     }// ThinkgearHandlerSwingWorker

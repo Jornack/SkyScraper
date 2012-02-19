@@ -41,9 +41,9 @@ public class LineChartGenerator {
 		
 
 	    TimeSeriesCollection dataset = new TimeSeriesCollection();
-	    boolean ignorePSl =PreferenceManager.getPreferences().getBoolean(PreferencesWindow.CHART_GENERATION_IGNORE_PSL, false);
-		boolean ignoreESense =PreferenceManager.getPreferences().getBoolean(PreferencesWindow.CHART_GENERATION_IGNORE_ESENSE, false);
-		boolean ignoreEEGPwr =PreferenceManager.getPreferences().getBoolean(PreferencesWindow.CHART_GENERATION_IGNORE_EEGPWR, false);
+	    boolean ignorePSl =PreferenceManager.getPreferences().getBoolean(PreferenceManager.CHART_GENERATION_IGNORE_PSL, false);
+		boolean ignoreESense =PreferenceManager.getPreferences().getBoolean(PreferenceManager.CHART_GENERATION_IGNORE_ESENSE, false);
+		boolean ignoreEEGPwr =PreferenceManager.getPreferences().getBoolean(PreferenceManager.CHART_GENERATION_IGNORE_EEGPWR, false);
 		if (!ignorePSl){
 			dataset.addSeries(poorSignalLevelSeries		 );
 		}
@@ -134,9 +134,9 @@ public class LineChartGenerator {
 		try {
 			
 			//System.getProperty("user.home"));
-			int width = PreferenceManager.getPreferences().getInt(PreferencesWindow.CHART_GENERATION_WIDTH, 4096);
-			int height = PreferenceManager.getPreferences().getInt(PreferencesWindow.CHART_GENERATION_HEIGHT, 512);
-			String format = PreferenceManager.getPreferences().get(PreferencesWindow.CHART_GENERATION_FORMAT, "PNG");
+			int width = PreferenceManager.getPreferences().getInt(PreferenceManager.CHART_GENERATION_WIDTH, 4096);
+			int height = PreferenceManager.getPreferences().getInt(PreferenceManager.CHART_GENERATION_HEIGHT, 512);
+			String format = PreferenceManager.getPreferences().get(PreferenceManager.CHART_GENERATION_FORMAT, "PNG");
 			resizeChart(chart, first, last);
 			if (format.equals("PNG")){
 				ChartUtilities.saveChartAsPNG(new File(file.getAbsoluteFile() +".png"), chart, width, height);

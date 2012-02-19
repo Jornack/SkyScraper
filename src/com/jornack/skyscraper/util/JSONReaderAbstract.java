@@ -4,6 +4,7 @@
 package com.jornack.skyscraper.util;
 
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import com.jornack.skyscraper.iface.IJSONReader;
@@ -14,6 +15,7 @@ import com.jornack.skyscraper.iface.IJSONReader;
  */
 public abstract class JSONReaderAbstract implements IJSONReader {
 	protected Scanner in = null;
+	protected boolean connected = false;
 	
 	/* (non-Javadoc)
 	 * @see com.jornack.skyscraper.util.IJSONReader#isDataAvailable()
@@ -35,5 +37,12 @@ public abstract class JSONReaderAbstract implements IJSONReader {
 		return this.in.nextLine();
 	}
 
+	@Override
+	public boolean isConnected() {
+		// TODO Auto-generated method stub
+		return connected;
+	}
 	
+	public abstract void connect() throws IOException;
+	public abstract void close() throws IOException;
 }

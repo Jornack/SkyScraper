@@ -22,8 +22,10 @@ https://github.com/Jornack/SkyScraper/raw/master/images/generated%20-%20skyskrap
 - Generates a JPG/PNG file of a saved session.
 
 [Installation]
-Just run :
-Java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
+- Download the SkyScraper-dist form the downloads section: https://github.com/Jornack/SkyScraper/downloads
+- Unzip
+- run  skyscraper.bat or 
+	java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
 
 [Issues]
 The Disconnect button doesn't switch back to Connect when the connection is terminated by Thinkgear (i.e. ThinkGear crashes)

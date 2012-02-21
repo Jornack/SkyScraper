@@ -39,6 +39,7 @@ The Disconnect button doesn't switch back to Connect when the connection is term
 - Add fancy icon [Done]
 - Add Excel/CSV conversion [Done]
 - Add option to set  timeline in LineChart
+- Redo the GUI
 - Clean up code
 - Refactor all code :$
 

@@ -10,16 +10,17 @@ I originally developed and tested this application with the MindWave and Thinkge
 
 The code is a mess, I know. I started off working on ericblue's code, but then I decided to go GUI, adding and removing stuff....and I basically ended up with a whole different application. It has been about seven years since I did any java coding. So, I was basically relearning this as I progressed :D
 
+[Features]
+- Shows realtime data as Bar Chart or Line Chart.
+- Saves data to a file on the local filesystem
+- Generates a JPG/PNG file of a saved session.
+- Converts a saved session into Excel or CSV format
+
 [Screenshots]
 https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-01.png
 https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-02.png
 https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-03.png
 https://github.com/Jornack/SkyScraper/raw/master/images/generated%20-%20skyskraper.20120210%2019.19.3412.json%20.png
-
-[Features]
-- Shows realtime data as Bar Chart or Line Chart.
-- Saves data to a file on the local filesystem
-- Generates a JPG/PNG file of a saved session.
 
 [Installation]
 - Download the SkyScraper-dist form the downloads section: https://github.com/Jornack/SkyScraper/downloads

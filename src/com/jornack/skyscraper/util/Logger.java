@@ -30,7 +30,12 @@ public class Logger {
 		//area.setCaretPosition(pos-1);
 		scrollpane.getVerticalScrollBar().setValue( scrollpane.getVerticalScrollBar().getMaximum()); 
 	}
-
+	public static void log(Object o){
+		log(o.toString());
+	}
+	public static void debug(Object o){
+		debug(o.toString());
+	}
 	public static void debug(String text){
 		if (PreferenceManager.getPreferences().getBoolean(PreferenceManager.PREFERENCES_DEBUG, false)){
 			log(text);

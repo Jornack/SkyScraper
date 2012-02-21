@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
@@ -30,6 +31,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jfree.ui.RefineryUtilities;
 
+import com.jornack.skyscraper.util.CSVGenerator;
+import com.jornack.skyscraper.util.ExcelGenerator;
 import com.jornack.skyscraper.util.LineChartGenerator;
 import com.jornack.skyscraper.util.Logger;
 import com.jornack.skyscraper.util.PreferenceManager;
@@ -63,6 +66,8 @@ public class PreferencesWindow extends JFrame {
 	private JLabel portLbl;
 	private JTextField portTxt;
 	private JCheckBox rawOutputChk;
+	private JTextField sourceTxt;
+	private JTextField targetTxt;
 	
 	
 
@@ -81,6 +86,9 @@ public class PreferencesWindow extends JFrame {
 				}
 			}
 		});
+	}
+	public void activateConversionTab(){
+		contentPane.setSelectedIndex(2);
 	}
 	public void activateChartGenerationTab(){
 		contentPane.setSelectedIndex(1);
@@ -101,14 +109,167 @@ public class PreferencesWindow extends JFrame {
 		
 		JComponent panel1 = makePreferencesPanel();
 		JComponent panel2 = makeChartGenerationPanel();
+		JComponent panel3 = makeConversionPanel();
 		//JComponent panel2 = makeSkySkraperPanel02("Panel #1");
 		
 		contentPane.addTab("Preferences",  panel1 );
 		contentPane.addTab("Chart Generation",  panel2 );
+		contentPane.addTab("Conversion",  panel3 );
 		//contentPane.addTab("Statistics", null, panel2, "Does nothing");
 		
 		setContentPane(contentPane);
+		activateConversionTab();
 
+	}
+	private JComponent makeConversionPanel() {
+		Logger.debug("Making ConversionPanel");
+		final JPanel panel = new JPanel(false);
+		SpringLayout spring = new SpringLayout();
+		panel.setLayout(spring);
+		
+		JLabel sourceLbl = new JLabel("JSON Source file");
+		spring.putConstraint(SpringLayout.NORTH, sourceLbl, 5, SpringLayout.NORTH, panel);
+		spring.putConstraint(SpringLayout.WEST, sourceLbl, 5, SpringLayout.WEST, panel);
+		panel.add(sourceLbl);
+		
+		sourceTxt = new JTextField();
+		sourceTxt.setText("dummy");
+		spring.putConstraint(SpringLayout.NORTH, sourceTxt, 5, SpringLayout.NORTH, panel);
+		spring.putConstraint(SpringLayout.WEST, sourceTxt, 50, SpringLayout.EAST, sourceLbl);
+		spring.putConstraint(SpringLayout.EAST, sourceTxt, -100, SpringLayout.EAST, panel);
+		
+		panel.add(sourceTxt);
+		JButton btnbrowse = new JButton("Browse");
+		btnbrowse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
+				fc.setFileFilter(filter);
+				fc.showOpenDialog(panel);
+				File selFile = fc.getSelectedFile();
+				if (selFile != null) {
+					
+					sourceTxt.setText((selFile.getAbsolutePath()));
+				}
+
+
+				
+			}
+		});
+		spring.putConstraint(SpringLayout.WEST, btnbrowse, 5, SpringLayout.EAST, sourceTxt);
+		spring.putConstraint(SpringLayout.NORTH, btnbrowse, -4, SpringLayout.NORTH, sourceTxt);
+		spring.putConstraint(SpringLayout.EAST, btnbrowse, -5, SpringLayout.EAST, panel);
+		panel.add(btnbrowse);
+		
+		JLabel targetFilenameLbl = new JLabel("Target filename");
+		spring.putConstraint(SpringLayout.NORTH, targetFilenameLbl, 5, SpringLayout.SOUTH, sourceLbl);
+		spring.putConstraint(SpringLayout.WEST, targetFilenameLbl, 5, SpringLayout.WEST, panel);
+		panel.add(targetFilenameLbl);
+		
+		targetTxt = new JTextField();
+		targetTxt.setText("dummy");
+		spring.putConstraint(SpringLayout.NORTH, targetTxt, 5, SpringLayout.NORTH, targetFilenameLbl);
+		spring.putConstraint(SpringLayout.WEST, targetTxt, 0, SpringLayout.WEST, sourceTxt);
+		spring.putConstraint(SpringLayout.EAST, targetTxt, -100, SpringLayout.EAST, panel);
+		panel.add(targetTxt);
+		
+		
+		JButton btnTargetBrowse = new JButton("Browse");
+		btnTargetBrowse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				//FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
+				//fc.setFileFilter(filter);
+				fc.showOpenDialog(panel);
+				File selFile = fc.getSelectedFile();
+				if (selFile != null) {
+					
+					targetTxt.setText((selFile.getAbsolutePath()));
+				}
+			}
+		});
+		spring.putConstraint(SpringLayout.WEST, btnTargetBrowse, 5, SpringLayout.EAST, targetTxt);
+		spring.putConstraint(SpringLayout.NORTH, btnTargetBrowse, -4, SpringLayout.NORTH, targetTxt);
+		spring.putConstraint(SpringLayout.EAST, btnTargetBrowse, -5, SpringLayout.EAST, panel);
+		panel.add(btnTargetBrowse);
+		
+		JLabel formatLbl = new JLabel("Format");
+		spring.putConstraint(SpringLayout.NORTH, formatLbl, 5, SpringLayout.SOUTH, targetTxt);
+		spring.putConstraint(SpringLayout.WEST, formatLbl, 5, SpringLayout.WEST, panel);
+		panel.add(formatLbl);
+		
+		final JRadioButton radioExcel = new JRadioButton(PreferenceManager.FORMAT_EXCEL);
+		final JRadioButton radioCSV = new JRadioButton(PreferenceManager.FORMAT_CSV);
+		
+		radioExcel.setActionCommand(PreferenceManager.FORMAT_EXCEL);
+		radioExcel.setSelected(true);
+		radioCSV.setActionCommand(PreferenceManager.FORMAT_CSV);
+		
+		spring.putConstraint(SpringLayout.NORTH, radioExcel, 5, SpringLayout.SOUTH, targetTxt);
+		spring.putConstraint(SpringLayout.WEST, radioExcel, 5, SpringLayout.WEST, targetTxt);
+		spring.putConstraint(SpringLayout.NORTH, radioCSV, 5, SpringLayout.SOUTH, targetTxt);
+		spring.putConstraint(SpringLayout.WEST, radioCSV, 5, SpringLayout.EAST, radioExcel);
+		
+		final ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(radioExcel); 
+		buttonGroup.add(radioCSV);
+		panel.add(radioExcel);
+		panel.add(radioCSV);
+		
+		
+		JButton btnCancel = new JButton("Cancel");
+
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				dispose();
+			}
+		});
+		spring.putConstraint(SpringLayout.SOUTH, btnCancel, -10, SpringLayout.SOUTH, panel);
+		spring.putConstraint(SpringLayout.EAST, btnCancel, -104, SpringLayout.EAST, panel);
+
+		panel.add(btnCancel);
+
+		JButton btnGenerate = new JButton("Convert");
+		spring.putConstraint(SpringLayout.NORTH, btnGenerate, 0, SpringLayout.NORTH, btnCancel);
+		spring.putConstraint(SpringLayout.WEST, btnGenerate, 5, SpringLayout.EAST, btnCancel);
+		spring.putConstraint(SpringLayout.EAST, btnGenerate, -5, SpringLayout.EAST, panel);
+		
+		btnGenerate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if (radioExcel.isSelected()){
+					ExcelGenerator excel = new ExcelGenerator(new File(sourceTxt.getText()), new File(targetTxt.getText()), null);
+					try {
+						excel.getWorkbook();
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(null, "Conversion failed.");
+						Logger.log(e);
+						e.printStackTrace();
+					}
+				}else if (radioCSV.isSelected()){
+					CSVGenerator csv = new CSVGenerator(new File(sourceTxt.getText()));
+					try {
+						csv.generate(new File( targetTxt.getText()));
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(null, "Conversion failed.");
+						Logger.log(e);
+						e.printStackTrace();
+					}
+				}
+				
+				
+				JOptionPane.showMessageDialog(null, "Conversion complete.");
+				
+				
+
+			}
+		});
+		spring.putConstraint(SpringLayout.NORTH, btnGenerate, 0, SpringLayout.NORTH, btnCancel);
+		spring.putConstraint(SpringLayout.WEST, btnGenerate, 4, SpringLayout.EAST, btnCancel);
+		panel.add(btnGenerate);
+	
+		return panel;
 	}
 	protected JComponent makePreferencesPanel(){
 		Logger.debug("Making PreferencesPanel");

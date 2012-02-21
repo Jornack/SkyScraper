@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class JSONFileReader extends JSONReaderAbstract{
-	
+	protected File source;
 	
 	private JSONFileReader(){}
 	public JSONFileReader(File file){

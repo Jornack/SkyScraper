@@ -46,7 +46,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.time.Millisecond;
@@ -58,10 +57,9 @@ import org.jfree.ui.RefineryUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//import com.ericblue.mindstream.client.ThinkGearSocketClient;
-
 import com.jornack.skyscraper.util.Logger;
 import com.jornack.skyscraper.util.PreferenceManager;
+import com.jornack.skyscraper.util.SignalStrengthJPanel;
 import com.jornack.skyscraper.util.ThinkGearJSONReader;
 
 /**
@@ -90,11 +88,11 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
 	private static final String ACTION_CMD_GENERATE_CHARTS = "GENERATE_CHARTS";
 	private static final String ACTION_CMD_STATS = "STATS";
 	private static final String ACTION_CMD_PREFERENCES = "PREFERENCES";
+	private static final String ACTION_CMD_EXCELCSV = "ACTION_EXCEL_CSV";
 	
 	private DefaultCategoryDataset altDataSet = null;
 	private DefaultCategoryDataset wavesDataSet = null;
 	private ThinkGearHandlerSwingWorker thinkGearHandlerSwingWorker = null;
-	private JTextField signalStrengthText;
 	
 	private JButton saveBtn;
 	private PreferencesWindow pw = null;
@@ -130,20 +128,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
 	private static JTextArea debugArea;
 	private static JScrollPane debugScrollPane;
 	private boolean charType = true;
-	private final static String[] buttonlabels = {"Connect",
-		"", // 
-		"Save",
-		"Generate charts",
-		"Preferences"
-		};
-	
-	private final static String[] buttonActions = {ACTION_CMD_CONNECT,
-		"", 
-		ACTION_CMD_SAVE,
-		ACTION_CMD_GENERATE_CHARTS,
-		ACTION_CMD_STATS,//"", // 
-		ACTION_CMD_PREFERENCES 
-		};
+	private static SignalStrengthJPanel signalStrength;
 	
 	public SkyScraper(String title) {
 		super(title);
@@ -235,7 +220,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
         //eSenseChartPanel.setPreferredSize(new Dimension(175, 270));;
         //eegPowerChartPanel.setPreferredSize(new Dimension(1024, 512));;
         Logger.log("Setting sizes");
-        buttonPanel.setPreferredSize(new Dimension(200, 250));;
+        buttonPanel.setPreferredSize(new Dimension(200, 270));;
         content.setPreferredSize(new Dimension(1124, 512));
         donatePanel.setPreferredSize(new Dimension(74,21));
         
@@ -319,10 +304,21 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
         SpringLayout spring = new SpringLayout();
         panel.setLayout(spring);
         
-        JButton connectBtn = new JButton("Connect");
+        JLabel signalLabel = new JLabel("Signal");
+        spring.putConstraint(SpringLayout.NORTH, signalLabel, 10, SpringLayout.NORTH, panel);
+        spring.putConstraint(SpringLayout.WEST, signalLabel, 50, SpringLayout.WEST, panel);
+        panel.add(signalLabel);
+		
+		setSignalStrength(new SignalStrengthJPanel());
+		
+		spring.putConstraint(SpringLayout.NORTH, getSignalStrength(), 0, SpringLayout.NORTH, signalLabel);
+		spring.putConstraint(SpringLayout.WEST, getSignalStrength(), 5, SpringLayout.EAST, signalLabel);
+		panel.add(getSignalStrength());
+		
+		JButton connectBtn = new JButton("Connect");
         connectBtn.setActionCommand(ACTION_CMD_CONNECT);
         connectBtn.addActionListener(this);
-        spring.putConstraint(SpringLayout.NORTH, connectBtn, 10, SpringLayout.NORTH, panel);
+        spring.putConstraint(SpringLayout.NORTH, connectBtn, 10, SpringLayout.SOUTH, signalLabel);
         spring.putConstraint(SpringLayout.WEST, connectBtn, 5, SpringLayout.WEST, panel);
         spring.putConstraint(SpringLayout.EAST, connectBtn, -10, SpringLayout.EAST, panel);
         panel.add(connectBtn);
@@ -346,29 +342,35 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
         spring.putConstraint(SpringLayout.EAST, generateBtn, -10, SpringLayout.EAST, panel);
         panel.add(generateBtn);
         
+        JButton excelBtn = new JButton("Excel/CSV");
+        excelBtn.setActionCommand(ACTION_CMD_EXCELCSV);
+        excelBtn.addActionListener(this);
+        excelBtn.setSize(40, 10);
+        spring.putConstraint(SpringLayout.NORTH, excelBtn, 10, SpringLayout.SOUTH, generateBtn);
+        spring.putConstraint(SpringLayout.WEST, excelBtn, 5, SpringLayout.WEST, panel);
+        spring.putConstraint(SpringLayout.EAST, excelBtn, -10, SpringLayout.EAST, panel);
+        panel.add(excelBtn);
+        
         JButton prefsbtn = new JButton("Preferences");
         prefsbtn.setActionCommand(ACTION_CMD_PREFERENCES);
         prefsbtn.addActionListener(this);
         prefsbtn.setSize(40, 10);
-        spring.putConstraint(SpringLayout.NORTH, prefsbtn, 10, SpringLayout.SOUTH, generateBtn);
+        spring.putConstraint(SpringLayout.NORTH, prefsbtn, 10, SpringLayout.SOUTH, excelBtn);
         spring.putConstraint(SpringLayout.WEST, prefsbtn, 5, SpringLayout.WEST, panel);
         spring.putConstraint(SpringLayout.EAST, prefsbtn, -10, SpringLayout.EAST, panel);
         panel.add(prefsbtn);
         
         
-        JLabel signalLabel = new JLabel("Signal");
-		spring.putConstraint(SpringLayout.NORTH, signalLabel, 10, SpringLayout.SOUTH, prefsbtn);
-		spring.putConstraint(SpringLayout.WEST, signalLabel, 5, SpringLayout.WEST, panel);
-		panel.add(signalLabel);
+       
+//		signalStrengthText = new JTextField("0%");
+//        signalStrengthText.setBackground(Color.WHITE );
+//        signalStrengthText. setHorizontalAlignment(JTextField.CENTER);
+//        signalStrengthText.setSize(1, getHeight());
+//        signalStrengthText.setColumns(3);
+//        spring.putConstraint(SpringLayout.NORTH, signalStrengthText, 0, SpringLayout.NORTH, signalLabel);
+//		spring.putConstraint(SpringLayout.WEST, signalStrengthText, 5, SpringLayout.EAST, signalLabel);
+//		//panel.add(signalStrengthText);
 		
-		signalStrengthText = new JTextField("0%");
-        signalStrengthText.setBackground(Color.WHITE );
-        signalStrengthText. setHorizontalAlignment(JTextField.CENTER);
-        signalStrengthText.setSize(1, getHeight());
-        signalStrengthText.setColumns(3);
-        spring.putConstraint(SpringLayout.NORTH, signalStrengthText, 0, SpringLayout.NORTH, signalLabel);
-		spring.putConstraint(SpringLayout.WEST, signalStrengthText, 5, SpringLayout.EAST, signalLabel);
-		panel.add(signalStrengthText);
 		
 		JRadioButton barBtn = new JRadioButton("BarChart");
 		barBtn.setSelected(true);
@@ -381,8 +383,8 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
 		final ButtonGroup group  = new ButtonGroup();
 		group.add(barBtn);
 		group.add(lineBtn);
-		spring.putConstraint(SpringLayout.WEST, barBtn, 0, SpringLayout.WEST, signalLabel);
-		spring.putConstraint(SpringLayout.NORTH, barBtn, 5, SpringLayout.SOUTH, signalLabel);
+		spring.putConstraint(SpringLayout.WEST, barBtn, 0, SpringLayout.WEST, prefsbtn);
+		spring.putConstraint(SpringLayout.NORTH, barBtn, 5, SpringLayout.SOUTH, prefsbtn);
 		spring.putConstraint(SpringLayout.WEST, lineBtn, 0, SpringLayout.WEST, barBtn);
 		spring.putConstraint(SpringLayout.NORTH, lineBtn, 5, SpringLayout.SOUTH, barBtn);
 		
@@ -654,7 +656,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
 				this.thinkGearHandlerSwingWorker.setAltDataSet(altDataSet);
 				this.thinkGearHandlerSwingWorker.setWavesDataSet(wavesDataSet);
 				
-				this.thinkGearHandlerSwingWorker.setSignalStrengthJTextField(this.signalStrengthText);
+				this.thinkGearHandlerSwingWorker.setSignalStrength(this.signalStrength);
 				
 				
 				j.setText("Disconnect");
@@ -716,6 +718,12 @@ public class SkyScraper extends ApplicationFrame implements ActionListener, Mous
         }else if (arg0.getActionCommand().equals(ACTION_CMD_GENERATE_CHARTS)){
         	pw.setVisible(true);
         	pw.activateChartGenerationTab();
+        	pw.getContentPane().requestFocus();
+        	RefineryUtilities.centerFrameOnScreen(pw);
+        	
+        }else if (arg0.getActionCommand().equals(ACTION_CMD_EXCELCSV)){
+        	pw.setVisible(true);
+        	pw.activateConversionTab();
         	pw.getContentPane().requestFocus();
         	RefineryUtilities.centerFrameOnScreen(pw);
         	
@@ -786,6 +794,7 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
     	private JTextField signalStrengthJTextField = null;
     	private FileWriter writer = null;
     	private String  filename = null;
+    	private SignalStrengthJPanel signalStrength = null;
     	public ThinkGearHandlerSwingWorker(){
 			setConnector(new ThinkGearJSONReader());
 		}
@@ -809,8 +818,8 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
 			}
     		writer = null;
     		filename = null;
-    		getSignalStrengthJTextField().setText("0%");
-    		getSignalStrengthJTextField().setForeground(Color.red);
+    		getSignalStrength().setStrength(0);
+    		
            
     		//((SwingWorker)this.timer).cancel(true);
     		//this.timer = null;
@@ -867,16 +876,8 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
 	    					if (!json.isNull("poorSignalLevel")){
 	    						int strength = 200 - json.getInt("poorSignalLevel");
 	    						strength = (int)(((double)strength/(double)200)*100);
-	    						getSignalStrengthJTextField().setText(Integer.toString(strength) + "%");
-	    						if (strength <25){
-	    							getSignalStrengthJTextField().setForeground(Color.red);
-	    						}else if  (strength <50){
-	    							getSignalStrengthJTextField().setForeground(Color.orange);
-	    						}else if  (strength <75){
-	    							getSignalStrengthJTextField().setForeground(Color.yellow);
-	    						}else {
-	    							getSignalStrengthJTextField().setForeground(Color.green);
-	    						}
+	    						getSignalStrength().setStrength(strength);
+	    						
 	    					}
 	    					/*
 	    					 * JH: check for existence of eSense. 
@@ -970,13 +971,6 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
     		}// end if (!getConnector().isConnected()){
     		return null;
     	}
-		public JTextField getSignalStrengthJTextField() {
-			return signalStrengthJTextField;
-		}
-		public void setSignalStrengthJTextField(JTextField signalStrengthJTextField) {
-			this.signalStrengthJTextField = signalStrengthJTextField;
-		}
-		
 		
 		public DefaultCategoryDataset getWavesDataSet() {
 			return wavesDataSet;
@@ -1010,6 +1004,12 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
 		}
 		public void setConnector(ThinkGearJSONReader connector) {
 			this.connector = connector;
+		}
+		public SignalStrengthJPanel getSignalStrength() {
+			return signalStrength;
+		}
+		public void setSignalStrength(SignalStrengthJPanel signalStrength) {
+			this.signalStrength = signalStrength;
 		}
     }// ThinkgearHandlerSwingWorker
 
@@ -1159,6 +1159,18 @@ private class ThinkGearHandlerSwingWorker extends SwingWorker<Void, Void> {
 
 	public static void setHighGamaSeries(TimeSeries highGamaSeries) {
 		SkyScraper.highGamaSeries = highGamaSeries;
+	}
+
+
+
+	public SignalStrengthJPanel getSignalStrength() {
+		return signalStrength;
+	}
+
+
+
+	public void setSignalStrength(SignalStrengthJPanel signalStrength) {
+		this.signalStrength = signalStrength;
 	}
 
 

@@ -24,6 +24,8 @@ public class PreferenceManager {
 	public static final String PREFERENCES_DEBUG = "skyskraper.preferences.debug";
 	public static final String FORMAT_PNG = "PNG";
 	public static final String FORMAT_JPG = "JPG";
+	public static final String FORMAT_EXCEL = "Excel";
+	public static final String FORMAT_CSV = "CSV";
 	
 	private PreferenceManager(){}
 	public static Preferences getPreferences() {

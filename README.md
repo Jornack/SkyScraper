@@ -1,4 +1,4 @@
-This is my fork of Jornack/SkyScraper.
+This is my fork of [Jornack/SkyScraper](https://github.com/Jornack/SkyScraper).
 
 Overview
 --------

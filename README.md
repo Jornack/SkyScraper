@@ -62,6 +62,7 @@ ToDo
 - Add menu
 - Refactor all code :$
 - static code analysis
+- write JavaDoc
 
 Change log
 ----------

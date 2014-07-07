@@ -17,6 +17,7 @@ This fork includes the following patches
 - Export rawEeg signal to the csv file.
 - Fixed double commited src folder
 - removed donate button (I don't want to adorn myself with borrowed plumes)
+- optimized to work with JDK1.8
 
 Features
 --------

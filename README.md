@@ -56,14 +56,12 @@ ToDo
 - Add replay of saved session
 - Add preload of saved session before generation so user can select specific parts of the session to generate.
 - Add option to skip the savedialog and start saving immediately
-- Make fancy Signal indicator [Done]
-- Add fancy icon [Done]
-- Add Excel/CSV conversion [Done]
 - Add option to set  timeline in LineChart
 - Redo the GUI
 - Clean up code
 - Add menu
 - Refactor all code :$
+- static code analysis
 
 Change log
 ----------

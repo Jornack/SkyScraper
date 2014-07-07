@@ -25,13 +25,16 @@ https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-01.png
 https://github.com/Jornack/SkyScraper/raw/master/images/screenshot-02.png
 https://github.com/Jornack/SkyScraper/raw/master/images/generated%20-%20skyskraper.20120210%2019.19.3412.json%20.png
 
-Installation
+Dependencies
 ------------
+Copy the following jar-files in the lib folder of this project and add them to you buildpath.
 
-- Download the SkyScraper-dist form the downloads section: https://github.com/Jornack/SkyScraper/downloads
-- Unzip
-- run  skyscraper.bat or 
-	java -Djava.ext.dirs=lib -jar dist/skyscraper.jar
+* jcommon
+* jfreechart
+* json
+* junit
+* swtgraphics2s
+* jexcelapi
 
 Issues
 ------

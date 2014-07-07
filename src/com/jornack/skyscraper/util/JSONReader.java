@@ -1,5 +1,6 @@
 package com.jornack.skyscraper.util;
 
-public class JSONReader {
+public class JSONReader
+{
 
 }

@@ -3,21 +3,16 @@ package com.jornack.skyscraper.util;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.swing.border.BevelBorder;
 
 public class SignalStrengthJPanel extends JPanel
 {
 
     private int strength = 0;
-    private JTextField[] bars = new JTextField[4];
-    private Color[] colors =
+    private final JTextField[] bars = new JTextField[4];
+    private final Color[] colors =
     {
         Color.red, Color.orange, Color.yellow, Color.green
     };
@@ -32,7 +27,7 @@ public class SignalStrengthJPanel extends JPanel
 //        	bars[i] = new JTextField("A"+i);
 //        	bars[i].setBackground(colors[i]);
 //        	bars[i].setForeground(colors[i]);
-//        	
+//
 //        	setBackground(Color.white);
 ////        	spring.putConstraint(SpringLayout.NORTH, bars[i], 0, SpringLayout.NORTH, this);
 ////        	spring.putConstraint(SpringLayout.WEST, bars[i],5, SpringLayout.WEST, last);
@@ -85,6 +80,7 @@ public class SignalStrengthJPanel extends JPanel
         return null;
     }
 
+    @Override
     public void paint(Graphics g)
     {
 
@@ -112,7 +108,7 @@ public class SignalStrengthJPanel extends JPanel
 //			this.strength = 0;
 //		}else
 //		this.strength += 25;
-//		
+//
         paint(getGraphics());
     }
 }

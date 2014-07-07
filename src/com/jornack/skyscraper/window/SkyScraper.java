@@ -67,8 +67,8 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
         MouseListener
 {
 
-    private final static String APP_NAME = "SkyScraper";
-    private final static String APP_VERSION = "0.1b";
+    private final static String APP_NAME = "SkyScraper (fork)";
+    private final static String APP_VERSION = "0.2";
 
     private static final boolean CHART_TYPE_LINE = false;
     private static final boolean CHART_TYPE_BAR = true;
@@ -115,8 +115,8 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
     private static TimeSeries highBetaSeries;
     private static TimeSeries lowGammaSeries;
     private static TimeSeries highGamaSeries;
-    private ChartPanel eSenseChartPanel;
-    private ChartPanel eegPowerChartPanel;
+    private final ChartPanel eSenseChartPanel;
+    private final ChartPanel eegPowerChartPanel;
     private static JTextArea debugArea;
     private static JScrollPane debugScrollPane;
     private boolean charType = true;
@@ -131,7 +131,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
 
         JScrollPane debugPanel = createdebugPanel();
 
-        debugPanel.setPreferredSize(new Dimension(175, 270));;
+        debugPanel.setPreferredSize(new Dimension(175, 270));
         spring.putConstraint(SpringLayout.NORTH, debugPanel, -100,
                 SpringLayout.SOUTH, content);
         spring.
@@ -438,7 +438,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
                 0.0f, 0.0f, Color.BLACK
         );
 //        final GradientPaint gp2 = new GradientPaint(
-//            0.0f, 0.0f, Color.red, 
+//            0.0f, 0.0f, Color.red,
 //            0.0f, 0.0f, Color.lightGray
 //        );
         renderer.setSeriesPaint(0, gp0);
@@ -611,7 +611,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
         axis.setFixedAutoRange(60000.0);  // 60 seconds
         axis = plot.getRangeAxis();
         axis.setAutoRange(true);
-        //axis.setRange(0.0, 100.0); 
+        //axis.setRange(0.0, 100.0);
 
         ValueAxis yAxis = plot.getRangeAxis();
         yAxis.setAutoRange(false);
@@ -916,7 +916,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
 
                         }
                         /*
-                         * JH: check for existence of eSense. 
+                         * JH: check for existence of eSense.
                          * I noticed it's possible to get eegPower without eSense when poorSignallevel >0
                          */
                         if (!json.isNull("eSense"))
@@ -972,7 +972,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
                                     getInt("lowGamma"));
                             getHighGamaSeries().add(now, (double) eegPower.
                                     getInt("highGamma"));
-//	    												
+//
                         }
 
                         if (save)
@@ -1251,7 +1251,7 @@ public class SkyScraper extends ApplicationFrame implements ActionListener,
 
     public void setSignalStrength(SignalStrengthJPanel signalStrength)
     {
-        this.signalStrength = signalStrength;
+        SkyScraper.signalStrength = signalStrength;
     }
 
 }

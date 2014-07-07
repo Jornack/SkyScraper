@@ -97,14 +97,12 @@ public class ExcelGenerator extends JSONFileReader
         WritableSheet sheet = workbook.createSheet(this.sheetName, 0);
 
         //JSONFileReader reader = new JSONFileReader(source);
-        String data = null;
-
         try
         {
             writeHeader(sheet);
             while (isDataAvailable())
             {
-                data = getData();
+                String data = getData();
                 Logger.debug(data);
 
                 int row = sheet.getRows();
@@ -174,15 +172,12 @@ public class ExcelGenerator extends JSONFileReader
         } catch (JSONException e)
         {
             Logger.log(e);
-            e.printStackTrace();
         } catch (RowsExceededException e)
         {
             Logger.log(e);
-            e.printStackTrace();
         } catch (WriteException e)
         {
             Logger.log(e);
-            e.printStackTrace();
         } finally
         {
             workbook.write();
@@ -192,7 +187,6 @@ public class ExcelGenerator extends JSONFileReader
             } catch (WriteException e)
             {
                 Logger.log(e);
-                e.printStackTrace();
             }
         } // end finally
         return workbook;
@@ -264,16 +258,14 @@ public class ExcelGenerator extends JSONFileReader
                     sheet.addCell(numHiGamma);
                 } // end for
 
-            } // end if 
+            } // end if
 
         } catch (RowsExceededException e)
         {
             Logger.log(e);
-            e.printStackTrace();
         } catch (WriteException e)
         {
             Logger.log(e);
-            e.printStackTrace();
         } finally
         {
             workbook.write();
@@ -283,7 +275,6 @@ public class ExcelGenerator extends JSONFileReader
             } catch (WriteException e)
             {
                 Logger.log(e);
-                e.printStackTrace();
             }
         } // end finally
 
@@ -313,8 +304,8 @@ public class ExcelGenerator extends JSONFileReader
         System.out.println(" ms=:" + ms.getFirstMillisecond());
         System.out.println(" ms=:" + ms.getLastMillisecond());
 
-//		poorSignalLevelSeries.add(ms,1); 
-//		attentionSeries      .add(ms,2); 
+//		poorSignalLevelSeries.add(ms,1);
+//		attentionSeries      .add(ms,2);
         meditationSeries.add(ms, 3);
         deltaSeries.add(ms, 4);
         thetaSeries.add(ms, 5);
@@ -349,7 +340,7 @@ public class ExcelGenerator extends JSONFileReader
         eegpower.addSeries(highAlphaSeries);
         eegpower.addSeries(lowBetaSeries);
         eegpower.addSeries(highBetaSeries);
-        eegpower.addSeries(lowGammaSeries);;
+        eegpower.addSeries(lowGammaSeries);
         eegpower.addSeries(highGamaSeries);
         ExcelGenerator me = new ExcelGenerator(null, null, "Foo Session");
         File source = new File(
@@ -363,8 +354,7 @@ public class ExcelGenerator extends JSONFileReader
             me2.getWorkbook();
         } catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.log(e);
         }
 
     }

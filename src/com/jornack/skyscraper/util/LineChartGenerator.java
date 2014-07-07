@@ -3,7 +3,6 @@ package com.jornack.skyscraper.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -16,8 +15,6 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.jornack.skyscraper.window.PreferencesWindow;
 
 public class LineChartGenerator
 {
@@ -103,7 +100,7 @@ public class LineChartGenerator
                             "poorSignalLevel"));
                 }
                 /*
-                 * JH: check for existence of eSense. 
+                 * JH: check for existence of eSense.
                  * I noticed it's possible to get eegPower without eSense when poorSignallevel >0
                  */
                 if (!json.isNull("eSense"))
@@ -143,14 +140,9 @@ public class LineChartGenerator
 
                 Thread.currentThread();
                 Thread.sleep(1);
-            } catch (JSONException e)
+            } catch (JSONException | InterruptedException e)
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (InterruptedException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Logger.log(e);
             }
 
         }
@@ -177,8 +169,7 @@ public class LineChartGenerator
             }
         } catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.log(e);
         }
         return chart;
     }
@@ -214,7 +205,7 @@ public class LineChartGenerator
         ValueAxis axis = plot.getDomainAxis();
         axis.setAutoRange(true);
         axis.setFixedAutoRange(60000.0);  // 60 seconds
-        axis = plot.getRangeAxis();
+        axis = plot.getRangeAxis();       // never used?
 
         return result;
     }

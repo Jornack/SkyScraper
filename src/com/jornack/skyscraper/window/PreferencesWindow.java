@@ -41,7 +41,7 @@ import org.jfree.ui.RefineryUtilities;
  *
  * $Author: Jornack $
  */
-public class PreferencesWindow extends JFrame
+public final class PreferencesWindow extends JFrame
 {
 
     /**
@@ -70,19 +70,16 @@ public class PreferencesWindow extends JFrame
      */
     public static void main(String[] args)
     {
-        EventQueue.invokeLater(new Runnable()
+        EventQueue.invokeLater(() ->
         {
-            public void run()
+            try
             {
-                try
-                {
-                    PreferencesWindow frame = new PreferencesWindow();
-                    frame.setVisible(true);
-                    RefineryUtilities.centerFrameOnScreen(frame);
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                PreferencesWindow frame = new PreferencesWindow();
+                frame.setVisible(true);
+                RefineryUtilities.centerFrameOnScreen(frame);
+            } catch (Exception e)
+            {
+                Logger.log(e);
             }
         });
     }
@@ -155,22 +152,18 @@ public class PreferencesWindow extends JFrame
 
         panel.add(sourceTxt);
         JButton btnbrowse = new JButton("Browse");
-        btnbrowse.addActionListener(new ActionListener()
+        btnbrowse.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
+            JFileChooser fc = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    ".json files", "json");
+            fc.setFileFilter(filter);
+            fc.showOpenDialog(panel);
+            File selFile = fc.getSelectedFile();
+            if (selFile != null)
             {
-                JFileChooser fc = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        ".json files", "json");
-                fc.setFileFilter(filter);
-                fc.showOpenDialog(panel);
-                File selFile = fc.getSelectedFile();
-                if (selFile != null)
-                {
 
-                    sourceTxt.setText((selFile.getAbsolutePath()));
-                }
-
+                sourceTxt.setText((selFile.getAbsolutePath()));
             }
         });
         spring.putConstraint(SpringLayout.WEST, btnbrowse, 5, SpringLayout.EAST,
@@ -200,20 +193,17 @@ public class PreferencesWindow extends JFrame
         panel.add(targetTxt);
 
         JButton btnTargetBrowse = new JButton("Browse");
-        btnTargetBrowse.addActionListener(new ActionListener()
+        btnTargetBrowse.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
+            JFileChooser fc = new JFileChooser();
+            //FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
+            //fc.setFileFilter(filter);
+            fc.showOpenDialog(panel);
+            File selFile = fc.getSelectedFile();
+            if (selFile != null)
             {
-                JFileChooser fc = new JFileChooser();
-                //FileNameExtensionFilter filter = new FileNameExtensionFilter(".json files", "json");
-                //fc.setFileFilter(filter);
-                fc.showOpenDialog(panel);
-                File selFile = fc.getSelectedFile();
-                if (selFile != null)
-                {
 
-                    targetTxt.setText((selFile.getAbsolutePath()));
-                }
+                targetTxt.setText((selFile.getAbsolutePath()));
             }
         });
         spring.putConstraint(SpringLayout.WEST, btnTargetBrowse, 5,
@@ -259,13 +249,9 @@ public class PreferencesWindow extends JFrame
 
         JButton btnCancel = new JButton("Cancel");
 
-        btnCancel.addActionListener(new ActionListener()
+        btnCancel.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                dispose();
-            }
+            dispose();
         });
         spring.putConstraint(SpringLayout.SOUTH, btnCancel, -10,
                 SpringLayout.SOUTH, panel);
@@ -282,45 +268,39 @@ public class PreferencesWindow extends JFrame
         spring.putConstraint(SpringLayout.EAST, btnGenerate, -5,
                 SpringLayout.EAST, panel);
 
-        btnGenerate.addActionListener(new ActionListener()
+        btnGenerate.addActionListener((ActionEvent arg0) ->
         {
-            public void actionPerformed(ActionEvent arg0)
+            if (radioExcel.isSelected())
             {
-
-                if (radioExcel.isSelected())
+                ExcelGenerator excel = new ExcelGenerator(new File(
+                        sourceTxt.getText()), new File(targetTxt.getText()),
+                        null);
+                try
                 {
-                    ExcelGenerator excel = new ExcelGenerator(new File(
-                            sourceTxt.getText()), new File(targetTxt.getText()),
-                            null);
-                    try
-                    {
-                        excel.getWorkbook();
-                    } catch (IOException e)
-                    {
-                        JOptionPane.
-                                showMessageDialog(null, "Conversion failed.");
-                        Logger.log(e);
-                        e.printStackTrace();
-                    }
-                } else if (radioCSV.isSelected())
+                    excel.getWorkbook();
+                } catch (IOException e)
                 {
-                    CSVGenerator csv = new CSVGenerator(new File(sourceTxt.
-                            getText()));
-                    try
-                    {
-                        csv.generate(new File(targetTxt.getText()));
-                    } catch (IOException e)
-                    {
-                        JOptionPane.
-                                showMessageDialog(null, "Conversion failed.");
-                        Logger.log(e);
-                        e.printStackTrace();
-                    }
+                    JOptionPane.
+                            showMessageDialog(null, "Conversion failed.");
+                    Logger.log(e);
                 }
-
-                JOptionPane.showMessageDialog(null, "Conversion complete.");
-
+            } else if (radioCSV.isSelected())
+            {
+                CSVGenerator csv = new CSVGenerator(new File(sourceTxt.
+                        getText()));
+                try
+                {
+                    csv.generate(new File(targetTxt.getText()));
+                } catch (IOException e)
+                {
+                    JOptionPane.
+                            showMessageDialog(null, "Conversion failed.");
+                    Logger.log(e);
+                    e.printStackTrace();
+                }
             }
+
+            JOptionPane.showMessageDialog(null, "Conversion complete.");
         });
         spring.putConstraint(SpringLayout.NORTH, btnGenerate, 0,
                 SpringLayout.NORTH, btnCancel);
@@ -409,13 +389,9 @@ public class PreferencesWindow extends JFrame
 
         JButton btnCancel = new JButton("Cancel");
 
-        btnCancel.addActionListener(new ActionListener()
+        btnCancel.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                dispose();
-            }
+            dispose();
         });
         spring.putConstraint(SpringLayout.SOUTH, btnCancel, -10,
                 SpringLayout.SOUTH, panel);
@@ -432,24 +408,19 @@ public class PreferencesWindow extends JFrame
         spring.putConstraint(SpringLayout.EAST, btnGenerate, -5,
                 SpringLayout.EAST, panel);
 
-        btnGenerate.addActionListener(new ActionListener()
+        btnGenerate.addActionListener((ActionEvent arg0) ->
         {
-            public void actionPerformed(ActionEvent arg0)
-            {
-
-                PreferenceManager.getPreferences().putBoolean(
-                        PreferenceManager.PREFERENCES_DEBUG, debugChk.
-                        isSelected());
-                PreferenceManager.getPreferences().putInt(
-                        PreferenceManager.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT);
-                PreferenceManager.getPreferences().put(
-                        PreferenceManager.THINKGEAR_DEFAULT_HOST, DEFAULT_HOST);
-                PreferenceManager.getPreferences().putBoolean(
-                        PreferenceManager.THINKGEAR_RAW_OUTPUT, rawOutputChk.
-                        isSelected());
-                dispose();
-
-            }
+            PreferenceManager.getPreferences().putBoolean(
+                    PreferenceManager.PREFERENCES_DEBUG, debugChk.
+                    isSelected());
+            PreferenceManager.getPreferences().putInt(
+                    PreferenceManager.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT);
+            PreferenceManager.getPreferences().put(
+                    PreferenceManager.THINKGEAR_DEFAULT_HOST, DEFAULT_HOST);
+            PreferenceManager.getPreferences().putBoolean(
+                    PreferenceManager.THINKGEAR_RAW_OUTPUT, rawOutputChk.
+                    isSelected());
+            dispose();
         });
         spring.putConstraint(SpringLayout.NORTH, btnGenerate, 0,
                 SpringLayout.NORTH, btnCancel);
@@ -472,13 +443,9 @@ public class PreferencesWindow extends JFrame
                 panel);
         spring.putConstraint(SpringLayout.EAST, addbtn, -5, SpringLayout.EAST,
                 panel);
-        addbtn.addActionListener(new ActionListener()
+        addbtn.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
-            {
-                createColumn(statsPanel);
-
-            }
+            createColumn(statsPanel);
         });
         panel.add(addbtn);
 
@@ -697,22 +664,18 @@ public class PreferencesWindow extends JFrame
         panel.add(textFilename);
         JButton btnbrowse = new JButton("Browse");
 
-        btnbrowse.addActionListener(new ActionListener()
+        btnbrowse.addActionListener((ActionEvent e) ->
         {
-            public void actionPerformed(ActionEvent e)
+            JFileChooser fc = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    ".json files", "json");
+            fc.setFileFilter(filter);
+            fc.showOpenDialog(panel);
+            File selFile = fc.getSelectedFile();
+            if (selFile != null)
             {
-                JFileChooser fc = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        ".json files", "json");
-                fc.setFileFilter(filter);
-                fc.showOpenDialog(panel);
-                File selFile = fc.getSelectedFile();
-                if (selFile != null)
-                {
 
-                    textFilename.setText((selFile.getAbsolutePath()));
-                }
-
+                textFilename.setText((selFile.getAbsolutePath()));
             }
         });
         spring.putConstraint(SpringLayout.WEST, btnbrowse, 5, SpringLayout.EAST,
@@ -749,99 +712,94 @@ public class PreferencesWindow extends JFrame
         spring.putConstraint(SpringLayout.EAST, btnGenerate, -5,
                 SpringLayout.EAST, panel);
 
-        btnGenerate.addActionListener(new ActionListener()
+        btnGenerate.addActionListener((ActionEvent arg0) ->
         {
-            public void actionPerformed(ActionEvent arg0)
+            try
             {
-
-                try
-                {
-                    Integer.parseInt(textChartWidth.getText());
-                } catch (NumberFormatException nfe)
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid Chart generation width.");
-                    return;
-                }
-                if (textChartWidth.getText().length() == 0 || new Integer(
-                        textChartWidth.getText()) == 0)
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid Chart generation width.");
-                    return;
-                }
-
-                PreferenceManager.getPreferences().put(
-                        PreferenceManager.CHART_GENERATION_WIDTH,
-                        textChartWidth.getText());
-
-                try
-                {
-                    Integer.parseInt(textChartHeight.getText());
-                } catch (NumberFormatException nfe)
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid Chart generation height.");
-                    return;
-                }
-                if (textChartHeight.getText().length() == 0 || new Integer(
-                        textChartHeight.getText()) == 0)
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid Chart generation height.");
-                    return;
-                }
-
-                PreferenceManager.getPreferences().put(
-                        PreferenceManager.CHART_GENERATION_FORMAT, buttonGroup.
-                        getSelection().getActionCommand());
-                try
-                {
-                    Integer.parseInt(textChartLineThickness.getText());
-                } catch (NumberFormatException nfe)
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid Line thickness.");
-                    return;
-                }
-                if (textChartLineThickness.getText().length() == 0
-                        || new Integer(textChartLineThickness.getText()) == 0)
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid Line thickness.");
-                    return;
-                }
-                if (textFilename.getText() != null && new File(textFilename.
-                        getText()).exists() == false)
-                {
-                    JOptionPane.showMessageDialog(null, "File does not exist.");
-                    return;
-                }
-                PreferenceManager.getPreferences().putBoolean(
-                        PreferenceManager.CHART_GENERATION_IGNORE_PSL,
-                        chkPoorSignalLevel.isSelected());
-                PreferenceManager.getPreferences().putBoolean(
-                        PreferenceManager.CHART_GENERATION_IGNORE_ESENSE,
-                        chkESense.isSelected());
-                PreferenceManager.getPreferences().putBoolean(
-                        PreferenceManager.CHART_GENERATION_IGNORE_EEGPWR,
-                        chkEEGPower.isSelected());
-
-                PreferenceManager.getPreferences().put(
-                        PreferenceManager.CHART_GENERATION_LINETHICKNESS,
-                        textChartLineThickness.getText());
-
-                File file = new File(textFilename.getText());
-
-                if (file != null)
-                {
-                    LineChartGenerator generator = new LineChartGenerator();
-                    generator.generate(file);
-                }
-
-                JOptionPane.showMessageDialog(null, "Generation complete.");
-
+                Integer.parseInt(textChartWidth.getText());
+            } catch (NumberFormatException nfe)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid Chart generation width.");
+                return;
             }
+            if (textChartWidth.getText().length() == 0 || new Integer(
+                    textChartWidth.getText()) == 0)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid Chart generation width.");
+                return;
+            }
+
+            PreferenceManager.getPreferences().put(
+                    PreferenceManager.CHART_GENERATION_WIDTH,
+                    textChartWidth.getText());
+
+            try
+            {
+                Integer.parseInt(textChartHeight.getText());
+            } catch (NumberFormatException nfe)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid Chart generation height.");
+                return;
+            }
+            if (textChartHeight.getText().length() == 0 || new Integer(
+                    textChartHeight.getText()) == 0)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid Chart generation height.");
+                return;
+            }
+
+            PreferenceManager.getPreferences().put(
+                    PreferenceManager.CHART_GENERATION_FORMAT, buttonGroup.
+                    getSelection().getActionCommand());
+            try
+            {
+                Integer.parseInt(textChartLineThickness.getText());
+            } catch (NumberFormatException nfe)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid Line thickness.");
+                return;
+            }
+            if (textChartLineThickness.getText().length() == 0
+                    || new Integer(textChartLineThickness.getText()) == 0)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid Line thickness.");
+                return;
+            }
+            if (textFilename.getText() != null && new File(textFilename.
+                    getText()).exists() == false)
+            {
+                JOptionPane.showMessageDialog(null, "File does not exist.");
+                return;
+            }
+            PreferenceManager.getPreferences().putBoolean(
+                    PreferenceManager.CHART_GENERATION_IGNORE_PSL,
+                    chkPoorSignalLevel.isSelected());
+            PreferenceManager.getPreferences().putBoolean(
+                    PreferenceManager.CHART_GENERATION_IGNORE_ESENSE,
+                    chkESense.isSelected());
+            PreferenceManager.getPreferences().putBoolean(
+                    PreferenceManager.CHART_GENERATION_IGNORE_EEGPWR,
+                    chkEEGPower.isSelected());
+
+            PreferenceManager.getPreferences().put(
+                    PreferenceManager.CHART_GENERATION_LINETHICKNESS,
+                    textChartLineThickness.getText());
+
+            File file = new File(textFilename.getText());
+
+            if (file != null)
+            {
+                LineChartGenerator generator = new LineChartGenerator();
+                generator.generate(file);
+            }
+
+            JOptionPane.showMessageDialog(null, "Generation complete.");
         });
         spring.putConstraint(SpringLayout.NORTH, btnGenerate, 0,
                 SpringLayout.NORTH, btnCancel);

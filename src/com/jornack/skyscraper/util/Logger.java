@@ -9,8 +9,6 @@ import java.util.Date;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import com.jornack.skyscraper.window.PreferencesWindow;
-
 /**
  * @author Jornack
  *
@@ -29,7 +27,7 @@ public class Logger
     {
         SimpleDateFormat fmt = new SimpleDateFormat("HH:mm:ss");
 
-        area.append(fmt.format(new Date()).toString());
+        area.append(fmt.format(new Date()));
         area.append(" - ");
         area.append(text);
         area.append("\n");

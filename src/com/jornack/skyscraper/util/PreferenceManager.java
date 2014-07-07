@@ -2,8 +2,6 @@ package com.jornack.skyscraper.util;
 
 import java.util.prefs.Preferences;
 
-import javax.swing.Icon;
-
 public class PreferenceManager
 {
 

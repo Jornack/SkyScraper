@@ -22,8 +22,7 @@ public class JSONFileReader extends JSONReaderAbstract
             this.in = new Scanner(file);
         } catch (FileNotFoundException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.log(e);
         }
 
     }

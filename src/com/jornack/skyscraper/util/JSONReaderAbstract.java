@@ -49,7 +49,9 @@ public abstract class JSONReaderAbstract implements IJSONReader
         return connected;
     }
 
+    @Override
     public abstract void connect() throws IOException;
 
+    @Override
     public abstract void close() throws IOException;
 }

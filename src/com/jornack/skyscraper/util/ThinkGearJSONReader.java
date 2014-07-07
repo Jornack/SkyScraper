@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.util.Scanner;
-
-import com.jornack.skyscraper.window.PreferencesWindow;
 
 public class ThinkGearJSONReader extends JSONReaderAbstract
 {
@@ -29,6 +26,7 @@ public class ThinkGearJSONReader extends JSONReaderAbstract
                 PreferenceManager.THINKGEAR_DEFAULT_PORT, DEFAULT_PORT));
     }
 
+    @Override
     public void connect() throws IOException
     {
 
@@ -76,11 +74,13 @@ public class ThinkGearJSONReader extends JSONReaderAbstract
         sendCommand(cmd);
     }
 
+    @Override
     public boolean isConnected()
     {
         return channel != null ? channel.isConnected() : false;
     }
 
+    @Override
     public void close() throws IOException
     {
 

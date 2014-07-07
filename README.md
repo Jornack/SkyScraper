@@ -10,6 +10,14 @@ I originally developed and tested this application with the MindWave and Thinkge
 
 The code is a mess, I know. I started off working on ericblue's code, but then I decided to go GUI, adding and removing stuff....and I basically ended up with a whole different application. It has been about seven years since I did any java coding. So, I was basically relearning this as I progressed :D
 
+Changes
+-------
+This fork includes the following patches
+
+- Export rawEeg signal to the csv file.
+- Fixed double commited src folder
+- removed donate button (I don't want to adorn myself with borrowed plumes)
+
 Features
 --------
 
@@ -59,7 +67,7 @@ ToDo
 
 Change log
 ----------
-
+- Added rawEeg signal to CSV export
 - Added Excel/CSV conversion
 - Added fancy Signal indicator
 19 feb 2012 - Initial release v1.0b
